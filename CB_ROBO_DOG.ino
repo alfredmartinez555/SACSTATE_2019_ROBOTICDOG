@@ -4,6 +4,9 @@
 /*
 /****************************************************/
 
+
+/****************************************************/
+
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 
@@ -34,6 +37,51 @@ void setup() {
 }
 
 void loop() {
+
+
+  //Lower the angles of each one some and slow it down
+
+//Looking from the back of the dog
+//Moves the Front Left Leg
+pwm.setPWM(THIGHservo3,0,200);
+delay(2000);
+pwm.setPWM(KNEEservo3,0,350);   
+delay(2000);
+pwm.setPWM(THIGHservo3,0,300);
+delay(200);
+pwm.setPWM(KNEEservo3,0,200);
+delay(2000);
+
+//Moves the Back Right Leg
+pwm.setPWM(THIGHservo1,0,300);
+delay(2000);
+pwm.setPWM(KNEEservo1,0,220); 
+delay(2000);
+pwm.setPWM(THIGHservo1,0,200);
+delay(200);
+pwm.setPWM(KNEEservo1,0,350);
+delay(2000);
+
+//Moves the Front Right Leg
+pwm.setPWM(THIGHservo2,0,400);
+delay(2000);
+pwm.setPWM(KNEEservo2,0,250); 
+delay(2000);
+pwm.setPWM(THIGHservo2,0,300);
+delay(200);
+pwm.setPWM(KNEEservo2,0,350);
+delay(2000);
+
+//Move Back Left Leg ( Not tested yet) 
+pwm.setPWM(THIGHservo0,0,300);
+delay(2000);
+pwm.setPWM(KNEEservo0,0,500); 
+delay(2000);
+pwm.setPWM(THIGHservo0,0,300);
+delay(200);
+pwm.setPWM(KNEEservo0,0,300); 
+delay(2000);
+  
 //***********HIP JOINTS***********************************************************************************//
 /************HIP_SERVO_0************/ 
 //    pwm.setPWM(HIPservo0,0,220);      //SHOWS 3 PHASES OF LEGS AS AN EXAMPLE ON THE L1 HIP JOINT
@@ -107,3 +155,15 @@ void loop() {
 //    delay(1000);                          //  
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
