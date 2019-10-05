@@ -4,9 +4,6 @@
 /*
 /****************************************************/
 
-
-/****************************************************/
-
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 
@@ -21,19 +18,19 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 #define MIN_KNEE_ANGLE -90    //rear knee motion
 #define MAX_KNEE_ANGLE  90    //forward knee motion
 
-                                                                //HIP#    
-uint8_t HIPservo0 = 0;//      ***********************        ******************
-uint8_t HIPservo1 = 4;//      * 1      Front      0 *           * (THIGH#)*  
-uint8_t HIPservo2 = 8;//      *                     *           *_________*
-uint8_t HIPservo3 = 12;//     *                     *           *         *
-uint8_t THIGHservo0 = 1;//    *                     *           *_________*
-uint8_t THIGHservo1 = 5;//    *                     *           *         *
-uint8_t THIGHservo2 = 9;//    *                     *           * (KNEE#) *
-uint8_t THIGHservo3 = 13;//   *                     *            *__________*
-uint8_t KNEEservo0 = 2;//     *                     *              *          *
-uint8_t KNEEservo1 = 6;//     *                     *                *          *
-uint8_t KNEEservo2 = 10;//    * 2       Rear      3 *                  **********
-uint8_t KNEEservo3 = 14;//    ***********************
+                                            //HIP#    
+//      ***********************        ******************
+//      * 1      Front      0 *           * (THIGH#)*  
+//      *                     *           *_________*
+//      *                     *           *         *
+//      *                     *           *_________*
+//      *                     *           *         *
+//      *                     *           * (KNEE#) *
+//      *                     *            *__________*
+//      *                     *              *          *
+//      *                     *                *          *
+//      * 2       Rear       3*                  **********
+//      ***********************
 
 uint8_t HIPservo[] = {0, 4, 8, 12};
 uint8_t THIGHservo[] = {1, 5, 9, 13};
@@ -137,7 +134,7 @@ void loop() {
 //  HipAngleStepping(2, 3);
 //  HipAngleStepping(3, 3);
 }
-
+void extras(){
 //********************************************************************************************************//  
 //***********HIP JOINTS***********************************************************************************//
 /************HIP_SERVO_0************/ 
@@ -309,14 +306,4 @@ void loop() {
 //pwm.setPWM(KNEEservo0,0,300); 
 //delay(2000);
 
-
-
-
-
-
-
-
-
-
-
-
+}
