@@ -18,33 +18,33 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 #define MIN_KNEE_ANGLE -90    //rear knee motion
 #define MAX_KNEE_ANGLE  90    //forward knee motion
 
-                                            //HIP#    
-//      ***********************        ******************
-//      * 1      Front      0 *           * (THIGH#)*  
-//      *                     *           *_________*
-//      *                     *           *         *
-//      *                     *           *_________*
-//      *                     *           *         *
-//      *                     *           * (KNEE#) *
-//      *                     *            *__________*
-//      *                     *              *          *
-//      *                     *                *          *
-//      * 2       Rear       3*                  **********
-//      ***********************
+                                                                //HIP#    
+uint8_t HIPservo0 = 0;//      ***********************        ******************
+uint8_t HIPservo1 = 4;//      * 1      Front      0 *           * (THIGH#)*  
+uint8_t HIPservo2 = 8;//      *                     *           *_________*
+uint8_t HIPservo3 = 12;//     *                     *           *         *
+uint8_t THIGHservo0 = 1;//    *                     *           *_________*
+uint8_t THIGHservo1 = 5;//    *                     *           *         *
+uint8_t THIGHservo2 = 9;//    *                     *           * (KNEE#) *
+uint8_t THIGHservo3 = 13;//   *                     *            *__________*
+uint8_t KNEEservo0 = 2;//     *                     *              *          *
+uint8_t KNEEservo1 = 6;//     *                     *                *          *
+uint8_t KNEEservo2 = 10;//    * 2       Rear       3*                  **********
+uint8_t KNEEservo3 = 14;//    ***********************
 
 uint8_t HIPservo[] = {0, 4, 8, 12};
 uint8_t THIGHservo[] = {1, 5, 9, 13};
 uint8_t KNEEservo[] = {2, 6, 10, 14};
 
 //HIP ANGLE AND PWM CONVERSIONS
-const int hip_pwm_minimum[] = {350, 260, 400, 70};  //inner values
-const int hip_pwm_maximum[] = {225, 395, 250, 200};
+const int hip_pwm_minimum[] = {350, 260, 400, 50};  //inner values
+const int hip_pwm_maximum[] = {225, 395, 200, 200};
 //THIGH ANGLE AND PWM CONVERSIONS
-const int thigh_pwm_minimum[] = {180, 330, 220, 160};
-const int thigh_pwm_maximum[] = {400, 100, 480, 380};
+const int thigh_pwm_minimum[] = {180, 330, 480, 160};
+const int thigh_pwm_maximum[] = {400, 100, 220, 380};
 //KNEE ANGLE AND PWM CONVERSIONS
-const int knee_pwm_minimum[] = {100, 150, 535, 150};
-const int knee_pwm_maximum[] = {500, 670, 110, 700};
+const int knee_pwm_minimum[] = {80, 620, 510, 60};
+const int knee_pwm_maximum[] = {500, 100, 110, 680};
 
 void setup() {
   Serial.begin(9600);
@@ -78,6 +78,20 @@ void resetKnees(){
     pwm.setPWM(KNEEservo2,0,0);
     pwm.setPWM(KNEEservo3,0,0);
 }
+void zeroAllMotors(){
+  HipAngle(0, 0);
+  HipAngle(1, 0);
+  HipAngle(2, 0);
+  HipAngle(3, 0);
+  ThighAngle(0, 0);
+  ThighAngle(1, 0);
+  ThighAngle(2, 0);
+  ThighAngle(3, 0);
+  KneeAngle(0, 0);
+  KneeAngle(1, 0);
+  KneeAngle(2, 0);
+  KneeAngle(3, 0);
+}
 /*steps through pwm signal as an angle!!!*/
 /*inputs are servo number[0,3] and delay time in millisec.*/
 void HipAngleStepping(int num, int speed){
@@ -93,6 +107,10 @@ void HipAngleStepping(int num, int speed){
     delay(speed);
   }  
 }
+void HipAngle(int num, int angle){
+  int angle_to_pwm = map(angle, MIN_HIP_ANGLE, MAX_HIP_ANGLE, hip_pwm_minimum[num], hip_pwm_maximum[num]);
+  pwm.setPWM(HIPservo[num],0,angle_to_pwm);
+}
 void ThighAngleStepping(int num, int speed){
   int x = 1; //x lets us go forward and backwards
   for(int i = MIN_THIGH_ANGLE; i<MAX_THIGH_ANGLE;i=i+x){
@@ -105,6 +123,10 @@ void ThighAngleStepping(int num, int speed){
     pwm.setPWM(THIGHservo[num],0,angle_to_pwm);
     delay(speed);
   }  
+}
+void ThighAngle(int num, int angle){
+    int angle_to_pwm = map(angle, MIN_THIGH_ANGLE, MAX_THIGH_ANGLE, thigh_pwm_minimum[num], thigh_pwm_maximum[num]);
+    pwm.setPWM(THIGHservo[num],0,angle_to_pwm);
 }
 void KneeAngleStepping(int num, int speed){
   int x = 1; //x lets us go forward and backwards
@@ -119,8 +141,54 @@ void KneeAngleStepping(int num, int speed){
     delay(speed);
   }  
 }
+void KneeAngle(int num, int angle){
+  int angle_to_pwm = map(angle, MIN_KNEE_ANGLE, MAX_KNEE_ANGLE, knee_pwm_minimum[num], knee_pwm_maximum[num]);
+  pwm.setPWM(KNEEservo[num],0,angle_to_pwm);
+}
 void loop() {
-  reset();
+//  reset();   // does not reset the legs back to the initial position??
+    zeroAllMotors();
+//  delay(1000);
+//  HipAngle(0, -30);
+//  HipAngle(1, -30);
+//  HipAngle(2, -30);
+//  HipAngle(3, -30);
+//  ThighAngle(0, -60);
+//  ThighAngle(1, -60);
+//  ThighAngle(2, -60);
+//  ThighAngle(3, -60);
+//  KneeAngle(0, -30);
+//  KneeAngle(1, -30);
+//  KneeAngle(2, -30);
+//  KneeAngle(3, -30);
+//  delay(1000);
+//  HipAngle(0, 0);
+//  HipAngle(1, 0);
+//  HipAngle(2, 0);
+//  HipAngle(3, 0);
+//  ThighAngle(0, 0);
+//  ThighAngle(1, 0);
+//  ThighAngle(2, 0);
+//  ThighAngle(3, 0);
+//  KneeAngle(0, 0);
+//  KneeAngle(1, 0);
+//  KneeAngle(2, 0);
+//  KneeAngle(3, 0);
+//  delay(1000);
+//  HipAngle(0, 30);
+//  HipAngle(1, 30);
+//  HipAngle(2, 30);
+//  HipAngle(3, 30);
+//  ThighAngle(0, 60);
+//  ThighAngle(1, 60);
+//  ThighAngle(2, 60);
+//  ThighAngle(3, 60);
+//  KneeAngle(0, 30);
+//  KneeAngle(1, 30);
+//  KneeAngle(2, 30);
+//  KneeAngle(3, 30);
+//  delay(1000);
+  
 //  KneeAngleStepping(0, 3);
 //  KneeAngleStepping(1, 3);
 //  KneeAngleStepping(2, 3);
@@ -132,9 +200,9 @@ void loop() {
 //  HipAngleStepping(0, 3);
 //  HipAngleStepping(1, 3);
 //  HipAngleStepping(2, 3);
-//  HipAngleStepping(3, 3);
+ // HipAngleStepping(3, 3);
 }
-void extras(){
+
 //********************************************************************************************************//  
 //***********HIP JOINTS***********************************************************************************//
 /************HIP_SERVO_0************/ 
@@ -306,4 +374,3 @@ void extras(){
 //pwm.setPWM(KNEEservo0,0,300); 
 //delay(2000);
 
-}
